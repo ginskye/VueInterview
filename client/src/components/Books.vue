@@ -27,7 +27,8 @@
                 <td>
                   <div class="btn-group" role="group">
                     <button type="button" class="btn btn-warning btn-sm" @click="toggleEditBookModal(book)">Update</button>
-                    <button type="button" class="btn btn-danger btn-sm">Delete</button>
+                    <button type="button" class="btn btn-danger btn-sm" @click="handleDeleteBook(book)">Delete</button>
+                    <confirm :message="message" v-if="showMessage"></confirm>
                   </div>
                 </td>
               </tr>
@@ -180,6 +181,7 @@
   <script>
   import axios from 'axios';
   import Alert from './Alert.vue';
+  import Confirm from './Confirm.vue'
   
   export default {
     data() {
@@ -205,6 +207,7 @@
     },
     components: {
         alert: Alert,
+        confirm: Confirm,
     },
     methods: {
         addBook(payload){
@@ -246,7 +249,7 @@
       };
       this.addBook(payload);
       this.initForm();
-    },
+    }, //handleAdd and handleEdit differ only in payload
     initForm() {
       this.addBookForm.title = '';
       this.addBookForm.author = '';
@@ -307,6 +310,26 @@
         this.initForm();
         this.getBooks();
 },
+    handleDeleteBook(book) {
+      //TODO: popup alert
+      this.message = "Are you sure you want to Delete?"
+      this.showMessage = true;
+      this.removeBook(book.id);
+    },
+    removeBook(bookID) {
+      const path = `http://localhost:5001/books/${bookID}`;
+      axios.delete(path)
+      .then(()=> {
+        this.getBooks();
+        this.message = 'Book removed!';
+        this.showMessage = true;
+      })
+      .catch((error)=> {
+        console.error(error);
+        this.getBooks();
+      });      
+    
+    },
   },
      created() {
       this.getBooks();
