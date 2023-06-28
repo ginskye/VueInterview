@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="alert alert-success" role="alert">{{ message }}
-            <!-- <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> -->
+            <!-- <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close"></button> -->
 </div>
         <br/>
     </div>

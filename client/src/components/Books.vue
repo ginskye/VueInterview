@@ -28,7 +28,7 @@
                   <div class="btn-group" role="group">
                     <button type="button" class="btn btn-warning btn-sm" @click="toggleEditBookModal(book)">Update</button>
                     <button type="button" class="btn btn-danger btn-sm" @click="handleDeleteBook(book)">Delete</button>
-                    <confirm :message="message" v-if="showMessage"></confirm>
+                    
                   </div>
                 </td>
               </tr>
@@ -228,6 +228,9 @@
         axios.get(path)
           .then((res) => {
             this.books = res.data.books;
+            if (this.books[0]==null){
+            this.message = "No Books!  Please Add one.";
+            this.showMessage = true;}
           })
           .catch((error) => {
             console.error(error);
@@ -312,8 +315,9 @@
 },
     handleDeleteBook(book) {
       //TODO: popup alert
-      this.message = "Are you sure you want to Delete?"
-      this.showMessage = true;
+      //this.confirm = "Are you sure you want to Delete?"
+      
+      //add extra alert/dismiss option before triggering next line
       this.removeBook(book.id);
     },
     removeBook(bookID) {
